@@ -4,7 +4,6 @@ This Noir project implements a zero-knowledge circuit that proves whether a secr
 
 recovery_score = 2 * secret_share + public_offset == 17
 
-```yaml
 
 The circuit ensures that a prover can demonstrate compliance with the threshold **without revealing** the private value `secret_share`.
 
@@ -27,7 +26,7 @@ fn main(secret_share: Field, public_offset: pub Field) {
     let recovery_threshold = 17;
     assert(recovery_score == recovery_threshold);
 ```
-```
+
 ## Project Structure
 
 An example repo to verify Noir circuits (with bb backend) using a Solidity verifier.
