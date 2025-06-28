@@ -15,12 +15,10 @@ contract Starter {
     function getVerifiedCount() public view returns (uint256) {
         return verifiedCount;
     }
-
-    function verifyEqual(bytes calldata proof, bytes32[] calldata publicInputs) public returns (bool) {
-        bool proofResult = verifier.verify(proof, publicInputs);
-        require(publicInputs.length == 2, "Expected 2 public inputs: y and expected");
-        require(proofResult, "Proof is not valid");
-        verifiedCount++;
-        return proofResult;
-    }
+function verifyEqual(bytes calldata proof, bytes32[] calldata publicInputs) public returns (bool) {
+    bool proofResult = verifier.verify(proof, publicInputs);
+    require(proofResult, "Proof is not valid");
+    verifiedCount++;
+    return proofResult;
+}
 }

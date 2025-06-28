@@ -1,4 +1,34 @@
-### Introduction
+# prove_threshold_policy
+
+This Noir project implements a zero-knowledge circuit that proves whether a secret input `x` (called `secret_share`) satisfies a fixed policy:
+
+recovery_score = 2 * secret_share + public_offset == 17
+
+```yaml
+
+The circuit ensures that a prover can demonstrate compliance with the threshold **without revealing** the private value `secret_share`.
+
+
+## 🧠 Use Case
+
+This circuit is useful for:
+
+- 🔐 Social recovery in wallets
+- 🎓 Anonymous eligibility checks
+- 🛡️ Zero-knowledge access control
+- ✅ Proving policy compliance without exposing sensitive data
+
+
+## 📦 Circuit Logic
+
+```rust
+fn main(secret_share: Field, public_offset: pub Field) {
+    let recovery_score = secret_share * 2 + public_offset;
+    let recovery_threshold = 17;
+    assert(recovery_score == recovery_threshold);
+```
+```
+## Project Structure
 
 An example repo to verify Noir circuits (with bb backend) using a Solidity verifier.
 
@@ -7,14 +37,14 @@ An example repo to verify Noir circuits (with bb backend) using a Solidity verif
 - `/js` - JS code to generate proof and save as a file.
 
 
-Tested with Noir 1.0.0-beta.3 and bb 0.82.2
+Tested with Noir 1.0.0-beta.6 and bb 0.84.0
 ## Circuit Logic
 
 The Noir circuit checks if `x * 2 + y == expected`, where:
 - `x` is a private input
 - `y` and `expected` are public inputs
 
-### Installation / Setup
+## Installation / Setup
 ```ssh
 # Foundry
 git submodule update
@@ -27,7 +57,7 @@ git submodule update
 
 ```  
 
-### Proof generation in JS
+## zk Proof generation in JS
 
 
 ```ssh
@@ -39,7 +69,7 @@ git submodule update
 
 ```
 
-### Proof generation with bb cli
+## zkProof generation with bb cli
 
 ```ssh
 cd circuits
@@ -48,7 +78,7 @@ cd circuits
 nargo execute
 
 # Generate proof
-bb prove -b ./target/noir_solidity.json -w target/noir_solidity.gz -o ./target --oracle_hash keccak
+bb prove -b ./target/prove_threshold_policy.json -w target/prove_threshold_policy.gz -o ./target --oracle_hash keccak
 
 # Run foundry test to read generated proof and verify
 cd ..
@@ -71,42 +101,4 @@ This will:
 - Compile the Noir circuit
 - Generate the verification key (`vk`)
 - Export the Solidity verifier to `contract/Verifier.sol`
-### Deployment
 
-Deploying to base Sepolia:
-
-```
-forge script script/Deploy.s.sol:DeployScript --rpc-url https://mainnet.base.org --broadcast --legacy
-```
-Deployment output:
-```
-Verifier deployed at: 0x519845DF3Ead9be1B1217d422f5b40a4d43e737D
-Starter deployed at: 0xaf78eFEf8B958eBa80D64e78fdBE655DC58e133b
-Total Paid: 0.00000522658568628 ETH (5224287 gas * avg 0.00100044 gwei)
-```
-
-
-### Verifying Proof onchain
-
-Verify proof on base Sepolia:
-
-```
-forge script script/VerifyProof.s.sol:VerifyProofScript --rpc-url https://mainnet.base.org --broadcast --legacy
-```
-Here is a [sample tx](https://sepolia.basescan.org/tx/0xeac8eacbc777bbf55fb15f502c94d9cc7f164aa46e1ea356bbfc98fb32e3b6ff) - Transaction Fee:
-`0.000011818559069182 ETH ($0.02)`
-
-Get [number of verified proofs](./contract/Starter.sol#L14) on-chain
-```
-forge script script/VerifyProof.s.sol:GetVerifiedCount --rpc-url https://mainnet.base.org --broadcast --legacy
-```
-
-
-#### Cost on Base Mainnet
-
-Verifier deployed at: 0x519845DF3Ead9be1B1217d422f5b40a4d43e737D
-Starter deployed at: 0xaf78eFEf8B958eBa80D64e78fdBE655DC58e133b
-
-Deployment cost of verifier contract: 0.000028411358047473 ETH ($0.11  when ETH = ~3800 USD) - [Sample TX](https://basescan.org/tx/0x68059d485544a909366d672174eb788678806acfd501be220d162c0ca0c13730)
-
-Proof verification cost : 0.000009590438665493 ETH ($0.04  when ETH = ~3800 USD) - [Sample Tx](https://basescan.org/tx/0x8a8324e64c8a5534b318acfd3e7514c8c35fdba46f0b6a74f8ab3e46c4877114)

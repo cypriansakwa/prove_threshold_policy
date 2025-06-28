@@ -1,30 +1,34 @@
-// This function verifies that x * 2 + y == expected.
-// x is private, y and expected are public.
-fn main(x: Field, y: pub Field, expected: pub Field) {
-    let res = x * 2 + y;
-    assert(res == expected);
+fn main(secret_share: Field, public_offset: pub Field) {
+		let recovery_score = secret_share * 2 + public_offset;
+		
+		let recovery_threshold = 17;
+		
+		assert(recovery_score == recovery_threshold);
+	}
+
+#[test]
+fn test_valid_share_and_offset() {
+    let secret_share = 6;
+    let public_offset = 5;
+    // 6 * 2 + 5 = 17 
+    let recovery_score = secret_share * 2 + public_offset;
+    assert(recovery_score == 17);
 }
 
 #[test]
-fn test_correct_values_case1() {let x = 3;
-    let y = 3;
-    let expected = 9;
-    let res = x * 2 + y;
-    assert(res == expected);}
+fn test_alternate_valid_case() {
+    let secret_share = 8;
+    let public_offset = 1;
+    // 8 * 2 + 1 = 17 
+    let recovery_score = secret_share * 2 + public_offset;
+    assert(recovery_score == 17);
+}
 
-    #[test]
-fn test_correct_values_case2() {
-    let x = 4;
-    let y = 6;
-    let expected = 14;
-    let res = x * 2 + y;
-    assert(res == expected); }
-
-#[test]
-fn test_incorrect_expected() {
-  let x = 2;
-  let y = 1;
-  let expected = 9;
-  let res = x * 2 + y;
-  assert(res == expected); // This should fail if uncommented
-} 
+//#[test]
+//fn test_invalid_combination_should_fail() {
+  //  let secret_share = 5;
+    //let public_offset = 6;
+    // 5 * 2 + 6 = 16 
+    //let recovery_score = secret_share * 2 + public_offset;
+   // assert(recovery_score == 17);
+//}

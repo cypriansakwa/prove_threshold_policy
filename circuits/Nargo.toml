@@ -1,5 +1,5 @@
 [package]
-name = "noir_solidity"       
+name = "prove_threshold_policy"       
 type = "bin"
 authors = ["saleel"]
 compiler_version = ">=1.0.0"
