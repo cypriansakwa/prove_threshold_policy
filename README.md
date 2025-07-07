@@ -22,7 +22,10 @@ This Noir circuit checks whether the prover satisfies a publicly verifiable thre
 ```
 It allows the prover to demonstrate compliance with a predefined access or eligibility policy while keeping their secret (`secret_share`) private.
 
-This circuit is useful for:
+This is not just a proof of knowledge of a secret—it is a threshold policy compliance proof:
+The prover must demonstrate that their secret, combined with a public offset, satisfies a specific linear constraint without revealing the secret itself.
+
+Such constructions are essential for enabling:
 
 - 🔐 Social recovery in wallets
 - 🎓 Anonymous eligibility checks
