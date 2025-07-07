@@ -8,16 +8,6 @@ recovery_score = 2 * secret_share + public_offset == 17
 The circuit ensures that a prover can demonstrate compliance with the threshold **without revealing** the private value `secret_share`.
 
 
-## 🧠 Use Case
-
-This circuit is useful for:
-
-- 🔐 Social recovery in wallets
-- 🎓 Anonymous eligibility checks
-- 🛡️ Zero-knowledge access control
-- ✅ Proving policy compliance without exposing sensitive data
-
-
 ## 📦 Circuit Logic
 
 ```rust
@@ -26,6 +16,19 @@ fn main(secret_share: Field, public_offset: pub Field) {
     let recovery_threshold = 17;
     assert(recovery_score == recovery_threshold);
 ```
+This Noir circuit checks whether the prover satisfies a publicly verifiable threshold policy without revealing their secret value:
+```ini
+ recovery_score = 2 * secret_share + public_offset == 17
+```
+It allows the prover to demonstrate compliance with a predefined access or eligibility policy while keeping their secret (`secret_share`) private.
+
+This circuit is useful for:
+
+- 🔐 Social recovery in wallets
+- 🎓 Anonymous eligibility checks
+- 🛡️ Zero-knowledge access control
+- ✅ Proving policy compliance without exposing sensitive data
+
 
 ## Project Structure
 
